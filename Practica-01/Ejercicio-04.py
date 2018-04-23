@@ -8,3 +8,6 @@ def vocal(a):
 print(vocal("z"))
 print(vocal("i"))
 
+assert vocal("z") == False
+assert  vocal ("i") == True
+

@@ -12,5 +12,11 @@ print(longitud(cadena))
 
 
 
+assert longitud(lista) == 2
+assert longitud(lista) != 6
+assert longitud(cadena) == 4
+assert longitud(cadena) != 2
+
+
 
 
