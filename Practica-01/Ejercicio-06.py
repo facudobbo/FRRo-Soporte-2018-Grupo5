@@ -7,3 +7,6 @@ def inversa(a):
 cad="hola"
 inv=inversa(cad)
 print(inv)
+
+assert  inversa(cad) == "aloh"
+assert  inversa (cad) != "hola"
