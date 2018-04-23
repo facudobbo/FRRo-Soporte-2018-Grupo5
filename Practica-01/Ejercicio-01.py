@@ -8,3 +8,6 @@ def maxi(a,b):
 
 x=maxi(9,4)
 print(x)
+
+assert maxi(9,4) == 9
+assert maxi (9,4)!= 4
