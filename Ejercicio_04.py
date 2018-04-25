@@ -41,7 +41,6 @@ class Estudiante(Persona):
     def edad_ingreso(self):
        b=datetime.date.today()
        print('Ingreso a los:',self.edad-(b.year-self.anio))
-
-#e=Estudiante('Caro',25,'M',1,1,'ISI',2010,40,10)
-#e.avance()
-#e.edad_ingreso()
+e=Estudiante('Caro',25,'M',1,1,'ISI',2010,40,10)
+e.avance()
+e.edad_ingreso()
