@@ -16,11 +16,15 @@ class Persona:
     def edad(self):
         h=datetime.datetime.now()
         if (h.month > self.fecha.month) or ((h.month==self.fecha.month) and (h.day>=self.fecha.day)):
-            print('Tiene',h.year- self.fecha.year, 'anios')
+            return h.year- self.fecha.year
         else:
-            print('Tiene',h.year- self.fecha.year-1,'anios')
+            return h.year- self.fecha.year-1
         pass
 
-f=datetime.datetime(1997,4,8)
+f=datetime.datetime(1997,5,8)
 p=Persona(f)
-p.edad()
+a=p.edad()
+print('Tiene',a, 'anios')
+
+assert (p.edad())==20
+assert (p.edad())!= 23
