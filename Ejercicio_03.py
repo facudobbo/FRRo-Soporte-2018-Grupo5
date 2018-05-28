@@ -39,3 +39,9 @@ class Persona:
 p=Persona('Caro',21,'M',1,1)
 p.es_mayor_edad()
 p.print_data()
+#El dni es aleatorio
+assert(p.nom=='Caro')
+assert(p.edad==21)
+assert(p.sexo=='M')
+assert(p.peso==1)
+assert(p.alt==1)

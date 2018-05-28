@@ -35,12 +35,17 @@ class Estudiante(Persona):
 
     def avance(self):
         a=self.apro/self.cant_materias*100
-        print('Porcentaje de la carrera aprobada:',a,'%')
+        return a
 
     # implementar usando modulo datetime
     def edad_ingreso(self):
        b=datetime.date.today()
-       print('Ingreso a los:',self.edad-(b.year-self.anio))
+       return (self.edad-(b.year-self.anio))
+
 e=Estudiante('Caro',25,'M',1,1,'ISI',2010,40,10)
-e.avance()
-e.edad_ingreso()
+print('Porcentaje de la carrera aprobada:',e.avance(),'%')
+assert (e.avance()==25.0)
+print(e.edad_ingreso())
+assert(e.edad_ingreso()== 17)
+
+

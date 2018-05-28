@@ -23,9 +23,7 @@ class Ejercicio:
         else:
             fe=datetime.datetime(self.fecha.year,6,30)
         return fe
-    def semana(self):
-        fe=datetime.datetime.now()
-        fe.
+
 
 
 
@@ -33,5 +31,4 @@ f=datetime.datetime(2017,5,1)
 e=Ejercicio(f)
 
 print(e.fin())
-
 

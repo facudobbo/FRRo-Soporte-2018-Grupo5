@@ -11,9 +11,8 @@ class Rectangulo:
     def area(self):
         return self.ba * self.al
 
-
-
-
 r=Rectangulo(5,2)
 
 print(r.area())
+
+assert(r.area()==10)

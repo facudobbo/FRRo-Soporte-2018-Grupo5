@@ -1,7 +1,7 @@
 # Implementar la función organizar_estudiantes() que tome como parámetro una lista de Estudiantes
 # y devuelva un diccionario con las carreras como keys, y la cantidad de estudiantes en cada una de ellas como values.
 
-from TP2.Ejercicio_4 import Estudiante
+from Ejercicio_04 import Estudiante
 estudiantes=[]
 
 def organizar_estudiantes(estudiantes):
@@ -34,3 +34,5 @@ estudiantes.append(c)
 
 dicc=organizar_estudiantes(estudiantes)
 print(list(dicc.keys()))
+
+assert (list(dicc.keys())==['ISI', 'IQ', 'IM', 'IE', 'IC'])

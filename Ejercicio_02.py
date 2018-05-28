@@ -15,3 +15,6 @@ class Circulo:
 c=Circulo(1)
 print(c.area())
 print(c.perimetro())
+
+assert (c.area()==3.141592653589793)
+assert (c.perimetro()==6.283185307179586)
