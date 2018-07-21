@@ -1,9 +1,7 @@
 # Implementar los metodos de la capa de datos de socios.
-import sys
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from TP5.Ejercicio_01 import Base, Socio
+from TP5.TP5_Ejercicio_01 import Base, Socio
 
 
 class DatosSocio(object):
@@ -60,18 +58,27 @@ class DatosSocio(object):
 
 
     def modificacion(self, socio):
-        self.session.query(Socio).filter(Socio.id == socio.id).update({Socio.dni:socio.dni, Socio.nombre:socio.nombre, Socio.apellido:socio.apellido})
-        self.session.commit()
-
-        return socio
+        try:
+            self.session.query(Socio).filter(Socio.id == socio.id).update({Socio.dni:socio.dni, Socio.nombre:socio.nombre, Socio.apellido:socio.apellido})
+            self.session.commit()
+            return socio
+        except:
+            return False
+    def altas(self):
+        self.borrar_todos()
+        self.alta(Socio(dni=12345678, nombre='Juan', apellido='Perez'))
+        self.alta(Socio(dni=12345679, nombre='Carlos', apellido='Perez'))
+        self.alta(Socio(dni=12345680, nombre='Susana', apellido='Gimenez'))
 
 
 def pruebas():
-    # alta
     datos = DatosSocio()
+    # borrar todos
     datos.borrar_todos()
+    assert len(datos.todos()) == 0
+    assert datos.borrar_todos()== True
 
-
+    # alta
     socio = datos.alta(Socio(dni=12345678, nombre='Juan', apellido='Perez'))
     assert socio.id > 0
     
@@ -103,12 +110,6 @@ def pruebas():
     # todos
     assert len(datos.todos()) == 2
 
-    # borrar todos
-    datos.borrar_todos()
-    assert len(datos.todos()) == 0
-    assert datos.borrar_todos()== True
 
-
-
-if __name__ == '__main__':
-    pruebas()
+#if __name__ == '__main__':
+#    pruebas()
