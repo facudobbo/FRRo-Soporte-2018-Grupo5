@@ -64,11 +64,7 @@ class DatosSocio(object):
             return socio
         except:
             return False
-    def altas(self):
-        self.borrar_todos()
-        self.alta(Socio(dni=12345678, nombre='Juan', apellido='Perez'))
-        self.alta(Socio(dni=12345679, nombre='Carlos', apellido='Perez'))
-        self.alta(Socio(dni=12345680, nombre='Susana', apellido='Gimenez'))
+
 
 
 def pruebas():
@@ -111,5 +107,5 @@ def pruebas():
     assert len(datos.todos()) == 2
 
 
-#if __name__ == '__main__':
-#    pruebas()
+if __name__ == '__main__':
+    pruebas()
