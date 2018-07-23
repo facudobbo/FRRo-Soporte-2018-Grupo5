@@ -96,7 +96,7 @@ class NegocioSocio(object):
 
         else:
             raise LongitudInvalida
-            return False
+            
 
     def regla_1(self, socio):
         """
@@ -110,7 +110,7 @@ class NegocioSocio(object):
         for s in socios:
             if s.dni==socio.dni:
                 raise DniRepetido
-                return False
+                
 
         return True
 
@@ -123,10 +123,9 @@ class NegocioSocio(object):
         """
         if (len(socio.nombre) > NegocioSocio.MAX_CARACTERES) or (len(socio.nombre) < NegocioSocio.MIN_CARACTERES):
             raise LongitudInvalida
-            return False
+            
         elif (len(socio.apellido) > NegocioSocio.MAX_CARACTERES) or (len(socio.apellido) < NegocioSocio.MIN_CARACTERES):
             raise LongitudInvalida
-            return False
         else:
             return True
 
@@ -138,7 +137,6 @@ class NegocioSocio(object):
         """
         if len(self.datos.todos())>self.MAX_SOCIOS:
             raise MaximoAlcanzado
-            return False
         else:
             return True
 
