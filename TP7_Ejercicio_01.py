@@ -3,137 +3,114 @@ from TP6.TP6_Ejercicio_01 import NegocioSocio
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-def alta():
-    root=tk.Tk()
-    root.title("Nuevo Socio")
-    root.marco=ttk.Frame(root, borderwidth=2, relief="raised", padding=(10,10))
-    root.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
-    root.nom= StringVar()
-    root.ape=StringVar()
-    root.dni=StringVar()
-    root.rotNom=Label(root.marco, text= "Nombre:")
-    root.rotAp=Label(root.marco, text= "Apellido:")
-    root.rotDni=Label(root.marco, text="DNI:")
 
-    root.EN=ttk.Entry(root.marco, textvariable=root.nom)
-    root.EA=ttk.Entry(root.marco, textvariable=root.ape)
-    root.ED=ttk.Entry(root.marco, textvariable= root.dni)
+class ABMForm:
 
-    root.bot=ttk.Button(root.marco, text="Aceptar", command=lambda: cargardatos(root))
-    root.rotNom.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
-    root.rotAp.grid(column=0, row=2, sticky=(E, W), padx=5, pady=5)
-    root.rotDni.grid(column=0, row=3, sticky=(E, W), padx=5, pady=5)
+    def __init__(self, parent, cn_socio):
+        self.parent= parent
+        self.cn_socio= cn_socio
 
-    root.EN.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
-    root.EA.grid(column=1, row=2, sticky=(E, W), padx=5, pady=5)
-    root.ED.grid(column=1, row=3, sticky=(E, W), padx=5, pady=5)
+        self.tree = ttk.Treeview(parent, selectmode=tk.BROWSE)
+        self.tree = ttk.Treeview(parent, columns= ("nom", "ape", "dni"))
+        self.tree.heading("#0", text="ID")
+        self.tree.heading("nom", text="Nombre")
+        self.tree.heading("ape", text="Apellido")
+        self.tree.heading("dni", text="DNI")
 
-    root.bot.grid(column=1, row=4, sticky=(E, W), padx=5, pady=5)
-    root.mainloop()
+        self.Alta= Button(parent, text="Alta", command= lambda: self.altaSocio())
+        self.Baja=Button(parent, text="Baja", command=lambda: self.bajaSocio())
+        self.Modif=Button(parent, text="Modificar", command= lambda:self.modifSocio())
 
-def cargardatos(root):
-    s= Socio(dni=root.ED.get(), nombre=root.EN.get(), apellido=root.EA.get())
+        self.tree.grid(column=0, row=0, sticky=(E, W),columnspan=6, padx=5, pady=5)
+        self.Alta.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
+        self.Baja.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
+        self.Modif.grid(column=2, row=1, sticky=(E, W), padx=5, pady=5)
 
-    rta=n.alta(s)
-    if rta:
-        soc=n.buscar_dni(s.dni)
-        c.treeview.insert("", tk.END, text=soc.id, values=(soc.nombre,soc.apellido,soc.dni))
-    else:
-        print("No funciona")
-    root.destroy()
-def baja():
-    i=c.treeview.focus()
-    if i:
-        c.treeview.delete(i)
-    else:
-        a=tk.Tk()
-        a.title("Borrar Socio")
-        a.marco=ttk.Frame(a, borderwidth=2, relief="raised", padding=(10,10))
-        a.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
-        a.msj=ttk.Label(a.marco, text="No hay ningun socio seleccionado")
-        a.bt=ttk.Button(a.marco, text="Salir", command=lambda: salir(a))
-        a.msj.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
-        a.bt.grid(column=0, row=2, sticky=(E, W), padx=5, pady=5)
-        a.mainloop()
-def modif():
-    i=c.treeview.focus()
-    a=tk.Tk()
-    a.title("Modificar Socio")
-    a.marco=ttk.Frame(a, borderwidth=2, relief="raised", padding=(10,10))
-    a.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
-    if i:
+        self.refresh()
 
-        datos=c.treeview.item(i,"values")
+    def refresh(self):
 
-        a.rotNom=Label(a.marco, text="Nombre:")
-        a.rotAp=Label(a.marco, text="Apellido:")
-        a.rotDni=Label(a.marco, text="DNI:")
+        for c in self.tree.get_children():
+            self.tree.delete(c)
 
-        a.nombre= StringVar()
-        a.ape=StringVar()
-        a.dni=StringVar()
+        for s in cn_socio.todos():
+            self.tree.insert("", END, text=s.id, values=(s.nombre,s.apellido, s.dni))
 
-        a.EN=ttk.Entry(a.marco, textvariable=a.nombre,width=30)
-        a.EA=ttk.Entry(a.marco, textvariable=a.ape, width=30)
-        a.ED=ttk.Entry(a.marco, textvariable=a.dni, width=30)
-        a.EN.insert(0, datos[0])
-        a.EA.insert(0,datos[1])
-        a.ED.insert(0,datos[2])
-        a.bot=ttk.Button(a.marco, text="Aceptar", command=lambda: editar(a,i))
-        a.rotNom.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
-        a.rotAp.grid(column=0, row=2, sticky=(E, W), padx=5, pady=5)
-        a.rotDni.grid(column=0, row=3, sticky=(E, W), padx=5, pady=5)
+    def altaSocio(self):
+        AltaModifForm(self.parent, self.refresh(), self.cn_socio)
+        self.refresh()
 
-        a.EN.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
-        a.EA.grid(column=1, row=2, sticky=(E, W), padx=5, pady=5)
-        a.ED.grid(column=1, row=3, sticky=(E, W), padx=5, pady=5)
+    def bajaSocio(self):
+        i=self.tree.focus()
+        id=self.tree.item(i,"text")
+        self.cn_socio.baja(id)
+        self.refresh()
 
-        a.bot.grid(column=1, row=4, sticky=(E, W), padx=5, pady=5)
-    else:
-        a.msj=ttk.Label(a.marco, text="No hay ningun socio seleccionado")
-        a.bt=ttk.Button(a.marco, text="Salir", command=lambda: salir(a))
-        a.msj.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
-        a.bt.grid(column=0, row=2, sticky=(E, W), padx=5, pady=5)
-    a.mainloop()
+    def modifSocio(self):
+        i=self.tree.focus()
+        id=self.tree.item(i,"text")
+        AltaModifForm(self.parent, self.refresh(),self.cn_socio, self.cn_socio.buscar(id))
+        self.refresh()
 
-def salir(root):
-    root.destroy()
-def editar(root,i):
-    s= Socio(id=c.treeview.item(i, "text") ,dni=root.ED.get(), nombre=root.EN.get(), apellido=root.EA.get())
+class AltaModifForm:
 
-    rta=n.modificacion(s)
-    if rta:
-        c.treeview.item(i, values=(root.EN.get(),root.EA.get(),root.ED.get()))
-    else:
-        print("No funciona")
+    def __init__(self, parent, callback, cn_socio, socio=None):
+
+        self.callback= callback
+        self.cn_socio= cn_socio
+
+        self.vent=Toplevel()
+        self.vent.transient(master=parent)
+
+        rotNom=Label(self.vent, text= "Nombre:")
+        rotAp=Label(self.vent, text= "Apellido:")
+        rotDni=Label(self.vent, text="DNI:")
+
+        self.id=IntVar(value=getattr(socio, 'id', 0))
+        self.nom= StringVar(value= getattr(socio, 'nombre', ''))
+        self.ape=StringVar(value= getattr(socio, 'apellido', ''))
+        self.dni=IntVar(value= getattr(socio, 'dni', 0))
+
+        EN=Entry(self.vent, textvariable=self.nom)
+        EA=Entry(self.vent, textvariable=self.ape)
+        ED=Entry(self.vent, textvariable= self.dni)
+
+        bot=Button(self.vent, text="Aceptar", command=lambda: self.aceptar())
+
+        self.accion= self.modif if socio else self.alta
+
+        rotNom.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
+        rotAp.grid(column=0, row=2, sticky=(E, W), padx=5, pady=5)
+        rotDni.grid(column=0, row=3, sticky=(E, W), padx=5, pady=5)
+
+        EN.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
+        EA.grid(column=1, row=2, sticky=(E, W), padx=5, pady=5)
+        ED.grid(column=1, row=3, sticky=(E, W), padx=5, pady=5)
+
+        bot.grid(column=1, row=4, sticky=(E, W), padx=5, pady=5)
+        self.callback
 
 
+    def aceptar(self):
+        self.accion()
+        self.callback
+        self.vent.destroy()
 
-    root.destroy()
+    def alta(self):
+        self.cn_socio.alta(Socio(nombre= self.nom.get(), apellido= self.ape.get(), dni =self.dni.get()))
+        self.callback
+
+    def modif(self):
+        self.cn_socio.modificacion(Socio(id=self.id.get(), nombre= self.nom.get(),apellido= self.ape.get(),dni= self.dni.get()))
 
 
-c=tk.Tk()
-c.title("ABM Socios Gestion Socios")
-c.marco=ttk.Frame(c, borderwidth=1, relief="raised", padding=(10,10))
-c.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
-c.treeview = ttk.Treeview(c.marco, selectmode=tk.BROWSE)
-c.treeview = ttk.Treeview(c.marco, columns= ("nom", "ape", "dni"))
-c.treeview.heading("#0", text="ID")
-c.treeview.heading("nom", text="Nombre")
-c.treeview.heading("ape", text="Apellido")
-c.treeview.heading("dni", text="DNI")
-n=NegocioSocio()
-for s in n.todos():
-    c.treeview.insert("", END, text=s.id, values=(s.nombre,s.apellido, s.dni ))
+parent=tk.Tk()
+parent.title("ABM Socios Gestion Socios")
+parent.marco=ttk.Frame(parent, borderwidth=1, relief="raised", padding=(10,10))
 
-c.btAlta=Button(c.marco, text="Alta", command=alta)
-c.btBaja=Button(c.marco, text="Baja", command=baja)
-c.btModif=Button(c.marco, text="Modificar", command=modif)
+parent.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
+cn_socio=NegocioSocio()
 
-c.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
-c.treeview.grid(column=0, row=0, sticky=(E, W),columnspan=6, padx=5, pady=5)
-c.btAlta.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
-c.btBaja.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
-c.btModif.grid(column=2, row=1, sticky=(E, W), padx=5, pady=5)
+ABMForm(parent.marco, cn_socio)
 
-c.mainloop()
+parent.mainloop()
